@@ -1,0 +1,19 @@
+.catalogo{
+  color: red;
+  background-color: blue;
+  font-size: 60px;
+}
+
+h1 {
+  color:black
+}
+
+.Card{
+  color:black;
+  background-color: blanchedalmond;
+}
+
+.img{
+  width: 200px ;
+  height: 200px;
+}

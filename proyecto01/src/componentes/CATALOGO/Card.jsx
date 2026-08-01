@@ -1,19 +1,21 @@
-//RECIBE LAS PROPIEDADES POR PARÁMETRO Y SE EXPORTA
-
-const Card= (props)=>{
-
+const Card= ({productos,agregarAlCarrito
+})=>{
     return(
-        <>
-        <p>ID: {props.id}</p>
-        <p>NOMBRE: {props.nombre}</p>
-        <p>PRECIO: {props.precio}</p>
-        <p>STOCK: {props.stock}</p>
-        <p>MARCA: {props.marca}</p>
-        <p>CATEGORÍA: {props.categoria}</p>
-        <p>DETALLES: {props.detalles}</p>
-        <p>ENVÍO: {props.envio?"SI":"NO"}</p>
-        <img src={props.foto} alt={props.nombre}></img>
-        </>
+        <div className="tarjeta">
+        <ul>
+        <li>ID: {productos.id}</li>
+        <li>NOMBRE: {productos.nombre}</li>
+        <li>PRECIO: {productos.precio}</li>
+        <li>STOCK: {productos.stock}</li>
+        <li>MARCA: {productos.marca}</li>
+        <li>CATEGORÍA: {productos.categoria}</li>
+        <li>DETALLES: {productos.detalles}</li>
+        <li>ENVÍO: {productos.envio?"SI":"NO"}</li>
+        </ul>
+        <img src={productos.foto} alt={productos.nombre}></img>
+        <button onClick={()=>agregarAlCarrito(productos)}>COMPRAR</button>
+        </div>
+
     )
 }
 

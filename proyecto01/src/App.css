@@ -1,19 +1,46 @@
-.catalogo{
-  color: red;
-  background-color: blue;
-  font-size: 60px;
+.catalogo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
-h1 {
-  color:black
+.tarjeta {
+    background-color: rgb(202, 140, 197);
+    border: 1px solid #000;
+    padding: 10px;
 }
 
-.Card{
-  color:black;
-  background-color: blanchedalmond;
+.tarjeta ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.img{
-  width: 200px ;
-  height: 200px;
+.tarjeta img {
+    width: 100%;
+    max-width: 250px;
+    display: block;
+    margin: 10px auto 0;
+}
+
+.tarjeta button{
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+  padding: 20px;
+}
+
+.producto{
+  border: solid 2px;
+  width: 50%;
+  margin: auto;
+}
+
+.producto img{
+  width: 100%;
+  max-width: 100px;
+}
+
+section{
+  text-align: center;
 }

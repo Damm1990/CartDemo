@@ -1,17 +1,16 @@
-import productos from '../../assets/productos.json'
 import Card from './Card'
 
-function Catalogo ({agregarAlCarrito}) {
+function Catalogo ({agregarAlCarrito,productos}) {
     return(
 <>
 <h1>LISTADO DE PRODUCTOS</h1>
 <div className='catalogo'>
 
 
-{productos.map((productos)=>(
+{productos.map((producto)=>(
     <Card
-    key={productos.id}
-    productos={productos}
+    key={producto.id}
+    productos={producto}
     agregarAlCarrito={agregarAlCarrito}
     />
 ))}

@@ -13,7 +13,7 @@ const Card= ({productos,agregarAlCarrito
         <li>ENVÍO: {productos.envio?"SI":"NO"}</li>
         </ul>
         <img src={productos.foto} alt={productos.nombre}></img>
-        <button onClick={()=>agregarAlCarrito(productos)}>COMPRAR</button>
+        <button className="btn btn-primary" onClick={()=>agregarAlCarrito(productos)}>AGREGAR AL CARRITO</button>
         </div>
 
     )

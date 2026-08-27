@@ -1,6 +1,14 @@
-import { useState } from "react"
+import { useContext,useState } from "react"
+import { CarritoContext } from "../../context/CarritoContext"
 
-function Alta({productos,agregarAlCatalogo,actualizarProducto,borrarProducto}){
+function Alta(){
+
+    const {
+        productos,
+        agregarAlCatalogo,
+        actualizarProducto,
+        borrarProducto
+    } = useContext(CarritoContext)
 
 const [nombre,setNombre]=useState("")
 const [precio,setPrecio]=useState(0)

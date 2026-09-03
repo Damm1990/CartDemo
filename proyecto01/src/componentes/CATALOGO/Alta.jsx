@@ -35,23 +35,29 @@ function enviar(e) {
 
     e.preventDefault()
 
-    const producto = {
-        id: editar ? idEditar : Date.now(),
-        nombre,
-        precio,
-        stock,
-        marca,
-        categoria,
-        detalles,
-        foto: url,
-        envio
-    }
+   const producto = {
+    nombre,
+    precio,
+    stock,
+    marca,
+    categoria,
+    detalles,
+    foto: url,
+    envio
+}
 
-    if (editar) {
-        actualizarProducto(producto)
-    } else {
-        agregarAlCatalogo(producto)
-    }
+if (editar) {
+
+    actualizarProducto({
+        ...producto,
+        id: idEditar
+    })
+
+} else {
+
+    agregarAlCatalogo(producto)
+
+}
 
     setNombre("")
     setPrecio(0)

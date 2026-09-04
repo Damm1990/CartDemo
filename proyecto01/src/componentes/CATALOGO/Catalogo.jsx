@@ -1,46 +1,22 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Card from "./Card";
 
 import { ModalContext } from "../../context/ModalContext";
 
-import { cargarProductos } from "../../redux/productoSlice"
 import { agregarAlCarrito } from "../../redux/carritoSlice";
 
-import { obtenerProductos } from "../../assets/service/productosService";
 
 function Catalogo() {
-
-    const productos = useSelector(state => state.productos);
+const productos = useSelector(state => state.productos.lista);
+const busqueda = useSelector(state => state.productos.busqueda);
     const carrito = useSelector(state => state.carrito);
 
     const dispatch = useDispatch();
 
     const { mostrarInforme } = useContext(ModalContext);
 
-    useEffect(() => {
-
-        const cargarDatos = async () => {
-
-            try {
-
-                const respuesta = await obtenerProductos();
-
-                dispatch(cargarProductos(respuesta.data));
-
-            } catch (error) {
-
-                console.error(
-                    "Error al obtener productos:",
-                    error
-                );
-            }
-        };
-
-        cargarDatos();
-
-    }, [dispatch]);
 
     const agregarProducto = (producto) => {
 
@@ -66,13 +42,17 @@ function Catalogo() {
         }
     };
 
+    const productosFiltrados = productos.filter(producto =>
+    producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
+);
+
     return (
         <>
             <h1>LISTADO DE PRODUCTOS</h1>
 
             <div className="catalogo">
 
-                {productos.map((producto) => (
+                {productosFiltrados.map((producto) => (
 
                     <Card
                         key={producto.id}

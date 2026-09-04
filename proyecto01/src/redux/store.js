@@ -1,20 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import productosReducer from "./productoSlice"
+import productosReducer from "./productoSlice";
 import carritoReducer from "./carritoSlice";
+import pedidosReducer from "./pedidoSlice";
+
+import productosMiddleware from "./productosMiddleware";
+import pedidosMiddleware from "./pedidosMiddleware";
 
 export const store = configureStore({
+
     reducer: {
         productos: productosReducer,
-        carrito: carritoReducer
-    }
-});
+        carrito: carritoReducer,
+        pedidos: pedidosReducer
+    },
 
-store.subscribe(() => {
-    const carrito = store.getState().carrito;
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+            .concat(productosMiddleware)
+            .concat(pedidosMiddleware)
 
-    localStorage.setItem(
-        "carrito",
-        JSON.stringify(carrito)
-    );
 });

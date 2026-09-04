@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { ModalContext } from "../context/ModalContext";
 
-function Modal() {
+function Modal({ children }) {
 
     const {
         modal,
@@ -10,8 +10,8 @@ function Modal() {
     } = useContext(ModalContext);
 
     if (!modal.mostrar) {
-        return null;
-    }
+    return children;
+}
 
     const confirmar = () => {
 

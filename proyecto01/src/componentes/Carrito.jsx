@@ -11,6 +11,10 @@ import {
     vaciarCarrito
 } from "../redux/carritoSlice";
 
+import {
+    crearPedido
+} from "../redux/pedidoSlice";
+
 const Carrito = () => {
 
         const navigate = useNavigate();
@@ -53,11 +57,19 @@ const borrarTodo = () => {
     );
 };
 
-const pedir = async () => {
+const pedir = () => {
 
     if (carrito.length === 0) {
-        return false;
+        return;
     }
+
+    const pedido = {
+        productos: carrito,
+        total: total,
+        fecha: new Date().toISOString()
+    };
+
+    dispatch(crearPedido(pedido));
 
     dispatch(vaciarCarrito());
 
@@ -66,7 +78,7 @@ const pedir = async () => {
         "Pedido realizado correctamente"
     );
 
-    return true;
+    navigate("/catalogo");
 };
 
     return (
@@ -215,15 +227,10 @@ const pedir = async () => {
                             BORRAR TODO
                         </button>
 
-                        <button
-    className="btn btn-success"
-    onClick={async () => {
-        const resultado = await pedir()
 
-        if (resultado) {
-            navigate("/catalogo")
-        }
-    }}
+<button
+    className="btn btn-success"
+    onClick={pedir}
 >
     PEDIR
 </button>

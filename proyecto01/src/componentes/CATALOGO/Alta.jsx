@@ -3,22 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { ModalContext } from "../../context/ModalContext";
 
+
 import {
     agregarProducto,
     actualizarProducto,
-    eliminarProducto
-} from "../../redux/productoSlice"
-
-import {
+    eliminarProducto,
     crearProducto,
     modificarProducto,
-    eliminarProducto as eliminarProductoAPI
-} from "../../assets/service/productosService";
+    eliminarProductoAPI
+} from "../../redux/productoSlice";
 
 
 function Alta() {
 
-    const productos = useSelector(state => state.productos);
+    const productos = useSelector(state => state.productos.lista);
+    const busqueda = useSelector(state => state.productos.busqueda);
     const dispatch = useDispatch();
 
   const {
@@ -48,7 +47,7 @@ const formularioCompleto =
     url.trim() !== "";
 
 
-async function enviar(e) {
+function enviar(e) {
 
     e.preventDefault();
 
@@ -67,34 +66,31 @@ async function enviar(e) {
 
         if (editar) {
 
-            const productoActualizado = {
-                ...producto,
-                id: idEditar
-            };
+    const productoActualizado = {
+        ...producto,
+        id: idEditar
+    };
 
-            const respuesta = await modificarProducto(
-                idEditar,
-                productoActualizado
-            );
+    dispatch(
+        modificarProducto({
+            id: idEditar,
+            producto: productoActualizado
+        })
+    );
 
-            dispatch(actualizarProducto(respuesta.data));
+    mostrarInforme(
+        "success",
+        "Producto editado correctamente"
+    );
 
-            mostrarInforme(
-                "success",
-                "Producto editado correctamente"
-            );
+} else {
+    dispatch(crearProducto(producto));
 
-        } else {
-
-            const respuesta = await crearProducto(producto);
-
-            dispatch(agregarProducto(respuesta.data));
-
-            mostrarInforme(
-                "success",
-                "Producto agregado correctamente"
-            );
-        }
+    mostrarInforme(
+        "success",
+        "Producto agregado correctamente"
+    );
+}
 
         limpiarFormulario();
 
@@ -149,31 +145,14 @@ function cancelarEdicion() {
 }
 
 
-async function borrarProducto(producto) {
+function borrarProducto(producto) {
 
-    try {
+    dispatch(eliminarProductoAPI(producto.id));
 
-        await eliminarProductoAPI(producto.id);
-
-        dispatch(eliminarProducto(producto.id));
-
-        mostrarInforme(
-            "danger",
-            "Producto eliminado correctamente"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Error al eliminar el producto:",
-            error
-        );
-
-        mostrarInforme(
-            "danger",
-            "Error al eliminar el producto"
-        );
-    }
+    mostrarInforme(
+        "danger",
+        "Producto eliminado correctamente"
+    );
 }
 
 
@@ -185,6 +164,10 @@ function confirmarBorrado(producto) {
         () => borrarProducto(producto)
     );
 }
+
+const productosFiltrados = productos.filter(producto =>
+    producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
+);
 
     return (
 
@@ -379,7 +362,7 @@ function confirmarBorrado(producto) {
 
                     <tbody>
 
-                        {productos.map((producto) => (
+                        {productosFiltrados.map((producto) => (
 
                             <tr
                                 key={producto.id}

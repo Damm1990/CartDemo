@@ -1,20 +1,73 @@
-import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import { CarritoContext } from "../context/CarritoContext"
+import { ModalContext } from "../context/ModalContext";
+
+import {
+    aumentarCantidad,
+    disminuirCantidad,
+    eliminarDelCarrito,
+    vaciarCarrito
+} from "../redux/carritoSlice";
 
 const Carrito = () => {
 
-    const navigate = useNavigate()
-    const {
-        carrito,
-        aumentarCantidad,
-        disminuirCantidad,
-        eliminarDelCarrito,
-        total,
-        borrarTodo,
-        pedir
-    } = useContext(CarritoContext)
+        const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const carrito = useSelector(state => state.carrito);
+
+    const { mostrarInforme } = useContext(ModalContext);
+
+    const total = carrito.reduce(
+        (acumulador, producto) =>
+            acumulador + producto.precio * producto.cantidad,
+        0
+    );
+
+    const aumentar = (id) => {
+    dispatch(aumentarCantidad(id));
+};
+
+const disminuir = (id) => {
+    dispatch(disminuirCantidad(id));
+};
+
+const eliminar = (id) => {
+    dispatch(eliminarDelCarrito(id));
+};
+
+const borrarTodo = () => {
+
+    if (carrito.length === 0) {
+        return;
+    }
+
+    dispatch(vaciarCarrito());
+
+    mostrarInforme(
+        "danger",
+        "El carrito fue borrado"
+    );
+};
+
+const pedir = async () => {
+
+    if (carrito.length === 0) {
+        return false;
+    }
+
+    dispatch(vaciarCarrito());
+
+    mostrarInforme(
+        "success",
+        "Pedido realizado correctamente"
+    );
+
+    return true;
+};
 
     return (
         <div className="container">
@@ -69,7 +122,7 @@ const Carrito = () => {
                                         <button
                                             className="btn btn-secondary"
                                             onClick={() =>
-                                                disminuirCantidad(producto.id)
+                                                disminuir(producto.id)
                                             }
                                         >
                                             -
@@ -82,7 +135,7 @@ const Carrito = () => {
                                         <button
                                             className="btn btn-secondary"
                                             onClick={() =>
-                                                aumentarCantidad(producto.id)
+                                                aumentar(producto.id)
                                             }
                                         >
                                             +
@@ -110,7 +163,7 @@ const Carrito = () => {
                                         <button
                                             className="btn btn-danger"
                                             onClick={() =>
-                                                eliminarDelCarrito(producto.id)
+                                                eliminar(producto.id)
                                             }
                                         >
                                             ELIMINAR
